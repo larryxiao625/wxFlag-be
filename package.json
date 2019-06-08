@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/ray26/wxFlag-be/issues"
   },
-  "homepage": "https://github.com/ray26/wxFlag-be#readme"
+  "homepage": "https://github.com/ray26/wxFlag-be#readme",
+  "dependencies": {
+    "egg": "^2.22.2"
+  },
+  "devDependencies": {
+    "egg-bin": "^4.13.1"
+  }
 }
