@@ -12,23 +12,35 @@ class FlagService extends Service {
         return result;
     }
 
-    async getAll(){
+    async getAll(openid){
         const {ctx,service,app} = this;
-        let result;
+        let allFlagResult;
+        let allJoinResult;
         await app.mysql.select('flag').then(res=>{
-            result=res;
+            allFlagResult=res;
         }).catch(res=>{
-            result=res;
+            allFlagResult=res;
         })
+        await app.mysql.select('join',{
+            where: {openid:openid}
+        }).then(res=>{
+            allJoinResult=res;
+        }).catch(res=>{
+            allJoinResult=res;
+        })
+        let result={
+            allFlag: allFlagResult,
+            allJoin: allJoinResult
+        }
         console.log(result);
         return result;
     }
 
-    async getDynamic(stuId){
+    async getDynamic(openid){
         const {ctx,app}=this;
         let result;
         await app.mysql.select('join',{
-            where: {stuId:stuId},
+            where: {openid:openid},
             columns: ['UID'],
         }).then(res=>{
             result=res;
@@ -56,11 +68,11 @@ class FlagService extends Service {
         return dynamicResult;
     };
 
-    async sign(stuId,UID,pic,comments){
+    async sign(openid,UID,pic,comments){
         const {app,ctx}=this;
         let result;
         const temp=await app.mysql.select('join',{
-            where: {stuId: stuId,UID: UID},
+            where: {openid: openid,UID: UID},
             columns: ['signDay']
         });
         var signDay=temp[0].signDay+1;
@@ -71,7 +83,7 @@ class FlagService extends Service {
         }
         const options={
             where: {
-                stuId: stuId,
+                openid: openid,
                 UID: UID
             }
         }
@@ -82,7 +94,7 @@ class FlagService extends Service {
         })
         await app.mysql.insert('dynamic',{
             UID:UID,
-            stuId:stuId,
+            openid:openid,
             comment:comments,
             images: pic,
             time: app.mysql.literals.now

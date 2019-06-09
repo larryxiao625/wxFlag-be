@@ -3,10 +3,9 @@ class UserController extends Controller{
 
     async login(){
         const {ctx, service} = this;
-        const userName=ctx.request.body.userName;
-        const pwd=ctx.request.body.pwd;
-        const openid=ctx.request.body.openid;
-        const res=await ctx.service.users.login(userName,pwd);
+        const {openid,userName}=ctx.request.body;
+        this.app.logger.info(ctx.request.body);
+        const res=await ctx.service.users.login(openid,userName);
         if(res===0){
             ctx.status=200;
             ctx.body={

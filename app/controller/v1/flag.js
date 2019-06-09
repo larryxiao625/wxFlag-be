@@ -21,7 +21,8 @@ class FlagController extends Controller{
 
     async getAll(){
         const {ctx,service,app} = this;
-        const result=await service.flag.getAll;
+        const stuId=ctx.request.body.stuId;
+        const result=await service.flag.getAll(stuId);
         console.log(result);
         if(result.length===0){
             ctx.response.status=200;
