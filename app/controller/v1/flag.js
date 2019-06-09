@@ -46,7 +46,7 @@ class FlagController extends Controller{
         if(result.errcode===0){
             ctx.response.body={
                 errcode: 0,
-                errmsg: result.result
+                errmsg: result.errmsg
             }
         }else if(result.errcode===1){
             ctx.response.body={
@@ -57,8 +57,8 @@ class FlagController extends Controller{
     };
     async sign(){
         const {ctx,service,app} = this;
-        const {stuId,UID}=ctx.request.body;
-        const result=await service.flag.sign(stuId,UID);
+        const {stuId,UID,pic,comment}=ctx.request.body;
+        const result=await service.flag.sign(stuId,UID,pic,comment);
         ctx.response.status=200;
         ctx.response.body={
             errcode: 0,

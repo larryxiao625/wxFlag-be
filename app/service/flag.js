@@ -39,13 +39,15 @@ class FlagService extends Service {
         let dynamicResult;
         await app.mysql.select('dynamic',{
             where: {UID: output},
-            orders: ['time','desc'],
+            orders: [['time','desc']],
         }).then(res=>{
+            console.log(res)
             dynamicResult={
                 errcode: 0,
                 errmsg: res,
             }
         }).catch(res=>{
+            console.log(res)
             dynamicResult={
                 errcode: 1,
                 errmsg: "暂无数据"
@@ -54,11 +56,18 @@ class FlagService extends Service {
         return dynamicResult;
     };
 
-    async sign(stuId,UID){
+    async sign(stuId,UID,pic,comments){
         const {app,ctx}=this;
         let result;
+        const temp=await app.mysql.select('join',{
+            where: {stuId: stuId,UID: UID},
+            columns: ['signDay']
+        });
+        var signDay=temp[0].signDay+1;
+        console.log(signDay);
         const row={
-            isSignToday: 1
+            isSignToday: 1,
+            signDay: signDay
         }
         const options={
             where: {
@@ -67,11 +76,21 @@ class FlagService extends Service {
             }
         }
         await app.mysql.update('join',row,options).then(res=>{
-            result=res;
+
         }).catch(res=>{
             result=res;
         })
+        await app.mysql.insert('dynamic',{
+            UID:UID,
+            stuId:stuId,
+            comment:comments,
+            images: pic,
+            time: app.mysql.literals.now
+        })
+        app.logger.info(result);
         return result;
-    }
+    };
+
+
 }
 module.exports=FlagService;
