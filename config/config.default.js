@@ -2,7 +2,9 @@
 const path = require('path');
 module.exports = appInfo => {
   return {
+    keys: '123456789',
     logger: {
+      consoleLevel: 'DEBUG',
       dir: path.join(appInfo.baseDir, 'logs'),
     },
     mysql:{
@@ -13,6 +15,11 @@ module.exports = appInfo => {
             password: 'XZhqq159357',
             database: 'wxflag'
         }
-    }
+    },
+    security: {
+      csrf: {
+        enable: false,
+      },
+    },
   };
 };

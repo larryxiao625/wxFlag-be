@@ -10,6 +10,6 @@ class UserService extends Service{
        }else{
            return 1;
        }
-   } 
+   }
 }
 module.exports=UserService;
