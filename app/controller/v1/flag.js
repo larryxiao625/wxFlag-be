@@ -23,7 +23,6 @@ class FlagController extends Controller{
         const {ctx,service,app} = this;
         const openid=ctx.request.body.openid;
         const result=await service.flag.getAll(openid);
-        console.log(result);
         if(result.length===0){
             ctx.response.status=200;
             ctx.response.body={

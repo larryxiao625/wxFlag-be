@@ -14,25 +14,13 @@ class FlagService extends Service {
 
     async getAll(openid){
         const {ctx,service,app} = this;
-        let allFlagResult;
-        let allJoinResult;
-        await app.mysql.select('flag').then(res=>{
-            allFlagResult=res;
+        let result;
+        await app.mysql.query('SELECT * FROM `flag` left outer join `join` on UID=joinUID').then(res=>{
+            result=res;
+            app.logger.info(result)
         }).catch(res=>{
-            allFlagResult=res;
+            app.logger.error(res);
         })
-        await app.mysql.select('join',{
-            where: {openid:openid}
-        }).then(res=>{
-            allJoinResult=res;
-        }).catch(res=>{
-            allJoinResult=res;
-        })
-        let result={
-            allFlag: allFlagResult,
-            allJoin: allJoinResult
-        }
-        console.log(result);
         return result;
     }
 
