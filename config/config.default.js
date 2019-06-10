@@ -16,6 +16,9 @@ module.exports = appInfo => {
             database: 'wxflag'
         }
     },
+    multipart: {
+      mode: 'stream',
+    },
     security: {
       csrf: {
         enable: false,

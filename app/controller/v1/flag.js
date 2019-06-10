@@ -21,8 +21,8 @@ class FlagController extends Controller{
 
     async getAll(){
         const {ctx,service,app} = this;
-        const stuId=ctx.request.body.stuId;
-        const result=await service.flag.getAll(stuId);
+        const openid=ctx.request.body.openid;
+        const result=await service.flag.getAll(openid);
         console.log(result);
         if(result.length===0){
             ctx.response.status=200;
@@ -40,8 +40,8 @@ class FlagController extends Controller{
     };
     async getDynamic(){
         const {ctx,service,app} = this;
-        const stuId=ctx.request.body;
-        const result=await service.flag.getDynamic(stuId);
+        const openid=ctx.request.body;
+        const result=await service.flag.getDynamic(openid);
         ctx.response.status=200;
         app.logger.info(result);
         if(result.errcode===0){
@@ -58,8 +58,8 @@ class FlagController extends Controller{
     };
     async sign(){
         const {ctx,service,app} = this;
-        const {stuId,UID,pic,comment}=ctx.request.body;
-        const result=await service.flag.sign(stuId,UID,pic,comment);
+        const {openid,UID,pic,comment}=ctx.request.body;
+        const result=await service.flag.sign(openid,UID,pic,comment);
         ctx.response.status=200;
         ctx.response.body={
             errcode: 0,

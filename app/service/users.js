@@ -3,7 +3,12 @@ const Service = require('egg').Service;
 class UserService extends Service{
    async login(openid,userName){
         const ctx= this.ctx;
-        const selUser= await this.app.mysql.get('user',{openid: openid})
+        var selUser;
+        await this.app.mysql.get('user',{openid: openid}).then(res=>{
+            selUser=res;
+        }).catch(res=>{
+
+        })
         this.app.logger.info(selUser);
         if(selUser==null){
             const result=await this.app.mysql.insert('user',{
@@ -24,6 +29,18 @@ class UserService extends Service{
             result=res;
         });
         return result;
+   }
+   async updateAvatar(openid,avatarPath){
+       const row={
+           avatar: avatarPath,
+       }
+       const options = {
+        where: {
+          openid: openid
+        }
+      };
+       let result=await this.app.mysql.update('user',row,options);
+       return result;
    }
 }
 module.exports=UserService;
