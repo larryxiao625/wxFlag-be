@@ -3,3 +3,4 @@ app/.DS_Store
 node_modules
 logs
 run
+app/public/img
