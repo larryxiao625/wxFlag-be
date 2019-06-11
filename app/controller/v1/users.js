@@ -64,7 +64,7 @@ class UserController extends Controller{
         try {
             // 异步把文件流 写入
             await awaitWriteStream(stream.pipe(writeStream));
-            await this.ctx.service.users.updateAvatar(openid,target)
+            await this.ctx.service.users.updateAvatar(openid,'public/img/'+fileName)
         } catch (err) {
             // 如果出现错误，关闭管道
             await sendToWormhole(stream);

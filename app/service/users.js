@@ -9,7 +9,6 @@ class UserService extends Service{
         }).catch(res=>{
 
         })
-        this.app.logger.info(selUser);
         if(selUser==null){
             const result=await this.app.mysql.insert('user',{
                 openid: openid,

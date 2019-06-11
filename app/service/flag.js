@@ -17,31 +17,15 @@ class FlagService extends Service {
         let result;
         await app.mysql.query('SELECT * FROM `flag` left outer join `join` on UID=joinUID').then(res=>{
             result=res;
-            app.logger.info(result)
         }).catch(res=>{
-            app.logger.error(res);
         })
         return result;
     }
 
-    async getDynamic(openid){
+    async getDynamic(selectUID){
         const {ctx,app}=this;
-        let result;
-        await app.mysql.select('join',{
-            where: {openid:openid},
-            columns: ['UID'],
-        }).then(res=>{
-            result=res;
-        }).catch(res=>{
-            result=res;
-        })
-        var output=result.map(result => result.UID);
         let dynamicResult;
-        await app.mysql.select('dynamic',{
-            where: {UID: output},
-            orders: [['time','desc']],
-        }).then(res=>{
-            console.log(res)
+        await app.mysql.query('SELECT * FROM `dynamic`  left outer join `user` on user.openid=dynamic.openid where `UID` = '+selectUID.UID + ' ORDER BY `time` DESC').then(res=>{
             dynamicResult={
                 errcode: 0,
                 errmsg: res,
@@ -59,15 +43,11 @@ class FlagService extends Service {
     async sign(openid,UID,pic,comments){
         const {app,ctx}=this;
         let result;
-        app.logger.info(openid);
-        app.logger.info(UID);
         const temp=await app.mysql.select('join',{
             where: {openid: openid,joinUID: UID},
             columns: ['signDay']
         });
-        app.logger.info(temp);
         var signDay=temp[0].signDay+1;
-        app.logger.info(signDay);
         const row={
             isSignToday: "done",
             signDay: signDay
@@ -90,7 +70,6 @@ class FlagService extends Service {
             images: pic,
             time: app.mysql.literals.now
         })
-        app.logger.info(result);
         return result;
     };
 

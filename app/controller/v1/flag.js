@@ -39,10 +39,9 @@ class FlagController extends Controller{
     };
     async getDynamic(){
         const {ctx,service,app} = this;
-        const openid=ctx.request.body;
-        const result=await service.flag.getDynamic(openid);
+        const UID=ctx.request.body;
+        const result=await service.flag.getDynamic(UID);
         ctx.response.status=200;
-        app.logger.info(result);
         if(result.errcode===0){
             ctx.response.body={
                 errcode: 0,
