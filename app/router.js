@@ -9,4 +9,5 @@ module.exports = app => {
     router.post('getAllDynamic','/api/v1/flag/getAllDynamic',controller.v1.flag.getAllDynamic);
     router.post('sign','/api/v1/flag/sign',controller.v1.flag.sign);
     router.post('uploadAvatar','/api/v1/users/uploadAvatar',controller.v1.users.uploadAvatar);
+    router.get('getAllRank','/api/v1/rank/getAllRank',controller.v1.rank.getAllRank);
 }
