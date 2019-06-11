@@ -25,7 +25,7 @@ class FlagService extends Service {
     async getDynamic(selectUID){
         const {ctx,app}=this;
         let dynamicResult;
-        await app.mysql.query('SELECT * FROM `dynamic`  left outer join `user` on user.openid=dynamic.openid where `UID` = '+selectUID.UID + ' ORDER BY `time` DESC').then(res=>{
+        await app.mysql.query('SELECT * FROM `dynamic` left outer join `user` on user.openid=dynamic.openid where `UID` = '+selectUID.UID + ' ORDER BY `time` DESC').then(res=>{
             dynamicResult={
                 errcode: 0,
                 errmsg: res,
@@ -39,7 +39,23 @@ class FlagService extends Service {
         })
         return dynamicResult;
     };
-
+    async getAllDynamic(selectUID){
+        const {ctx,app}=this;
+        let dynamicResult;
+        await app.mysql.query('SELECT * FROM `dynamic` left outer join `user` on user.openid=dynamic.openid ORDER BY `time` DESC').then(res=>{
+            dynamicResult={
+                errcode: 0,
+                errmsg: res,
+            }
+        }).catch(res=>{
+            console.log(res)
+            dynamicResult={
+                errcode: 1,
+                errmsg: "暂无数据"
+            }
+        })
+        return dynamicResult;
+    };
     async sign(openid,UID,pic,comments){
         const {app,ctx}=this;
         let result;
@@ -72,6 +88,19 @@ class FlagService extends Service {
         })
         return result;
     };
+    async join(openid,UID){
+        const {app,ctx}=this;
+        let result;
+        await app.mysql.insert('join',{
+            joinUID: UID,
+            openid: openid
+        }).then(res=>{
+            result=res
+        }).catch(res=>{
+            result=res;
+        })
+        return result;
+    }
 
 
 }

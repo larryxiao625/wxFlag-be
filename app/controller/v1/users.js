@@ -10,7 +10,6 @@ class UserController extends Controller{
     async login(){
         const {ctx, service} = this;
         const {openid,userName}=ctx.request.body;
-        this.app.logger.info(ctx.request.body);
         const res=await ctx.service.users.login(openid,userName);
         if(res===0){
             ctx.status=200;
@@ -30,7 +29,6 @@ class UserController extends Controller{
         const {ctx, service} = this;
         const {userName,stuId,pwd,phone,openid}=ctx.request.body;
         const res=await ctx.service.users.register(userName,pwd,stuId,phone.stuId);
-        this.app.logger.info(res);
         if(res.affectedRows===1){
             ctx.response.status=200;
             ctx.body={
@@ -56,7 +54,6 @@ class UserController extends Controller{
     async uploadAvatar(){
         const { ctx } = this;
         const stream = await ctx.getFileStream();
-        this.app.logger.info(stream.filename);
         const openid=stream.fields.openid
         const fileName= openid+path.extname(stream.filename);
         const target = path.join(this.config.baseDir, 'app/public/img', fileName);
