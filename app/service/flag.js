@@ -59,20 +59,23 @@ class FlagService extends Service {
     async sign(openid,UID,pic,comments){
         const {app,ctx}=this;
         let result;
+        app.logger.info(openid);
+        app.logger.info(UID);
         const temp=await app.mysql.select('join',{
-            where: {openid: openid,UID: UID},
+            where: {openid: openid,joinUID: UID},
             columns: ['signDay']
         });
+        app.logger.info(temp);
         var signDay=temp[0].signDay+1;
-        console.log(signDay);
+        app.logger.info(signDay);
         const row={
-            isSignToday: 1,
+            isSignToday: "done",
             signDay: signDay
         }
         const options={
             where: {
                 openid: openid,
-                UID: UID
+                joinUID: UID
             }
         }
         await app.mysql.update('join',row,options).then(res=>{
