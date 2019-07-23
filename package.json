@@ -18,9 +18,9 @@
   "homepage": "https://github.com/ray26/wxFlag-be#readme",
   "dependencies": {
     "await-stream-ready": "^1.0.1",
-    "egg": "^2.22.2",
+    "egg": "^2.23.0",
     "egg-mysql": "^3.0.0",
-    "mocha": "^6.1.4",
+    "mocha": "^6.2.0",
     "stream-wormhole": "^1.1.0"
   },
   "devDependencies": {
