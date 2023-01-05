@@ -24,6 +24,6 @@
     "stream-wormhole": "^1.1.0"
   },
   "devDependencies": {
-    "egg-bin": "^4.13.1"
+    "egg-bin": "^4.20.0"
   }
 }
